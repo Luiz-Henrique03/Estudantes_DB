@@ -30,27 +30,26 @@ public class JavaSQL_Handler implements JAVASQL_Factory{
 		public void InsertStudent(Connection connection, Estudante estudante) {
 		    if (connection != null) {
 		        try {
-		            String sql = "INSERT INTO Estudantes2 (nome, aprovado, escolaridade, disciplina1, nota1, disciplina2, nota2, disciplina3, nota3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		            String sql = "INSERT INTO Estudantes3 (nome, aprovado, escolaridade, disciplina1, nota1, disciplina2, nota2, disciplina3, nota3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		            preparedStatement.setString(1, estudante.getNome());
 		            preparedStatement.setString(2, estudante.getAprovado()); // Insere o status (Aprovado ou Reprovado)
 		            preparedStatement.setString(3, estudante.getEscolaridade());
 
 		            // Verifique se há até 3 disciplinas e suas notas
-		            Map<String, Double> disciplinas = estudante.getDisciplinas();
+		            Map<String, String> disciplinas = estudante.getNotasDisciplinas();
 		            int index = 4;
-		            for (Map.Entry<String, Double> entry : disciplinas.entrySet()) {
+		            for (Map.Entry<String, String> entry : disciplinas.entrySet()) {
 		                if (index > 9) {
 		                    break; // Máximo de 3 disciplinas
 		                }
 		                preparedStatement.setString(index++, entry.getKey()); // Nome da disciplina
-		                preparedStatement.setDouble(index++, entry.getValue()); // Nota da disciplina
+		                preparedStatement.setString(index++, entry.getValue()); // Nota da disciplina
 		            }
 
 		            int rowsAffected = preparedStatement.executeUpdate();
 
 		            preparedStatement.close();
-		            connection.close();
 
 		            if (rowsAffected > 0) {
 		                System.out.println("Estudante inserido com sucesso.");
@@ -61,5 +60,29 @@ public class JavaSQL_Handler implements JAVASQL_Factory{
 		            e.printStackTrace();
 		        }
 		    }
-		}    
+		} 
+		
+		public void updateStudent(Connection connection, int estudanteId, String novaString) {
+		    if (connection != null) {
+		        try {
+		            String sql = "UPDATE Estudantes3 SET escolaridade = ? WHERE id = ?";
+		            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		            preparedStatement.setInt(1, estudanteId);
+		            preparedStatement.setString(2, novaString);
+		            
+
+		            int rowsAffected = preparedStatement.executeUpdate();
+
+		            preparedStatement.close();
+
+		            if (rowsAffected > 0) {
+		                System.out.println("Estudante atualizado com sucesso.");
+		            } else {
+		                System.out.println("Nenhum estudante foi encontrado com o ID especificado.");
+		            }
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+   }
+		}
 }

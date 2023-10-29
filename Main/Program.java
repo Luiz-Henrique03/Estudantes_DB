@@ -9,18 +9,21 @@ import java.util.Map;
 import Database.DB_AbstractFactory;
 import Entities.Bacharelado;
 import Entities.Estudante;
+import Entities.Mestrado;
+import Entities.BachareladoDecorator;
+import Entities.EstudanteDecorator;
 
 public class Program {
     public static void main(String[] args) {
-        // Crie uma fábrica de banco de dados para MySQL
         DB_AbstractFactory mysqlFactory = new JavaSQL_Handler();
         Connection connection = mysqlFactory.createConnection(mysqlFactory);
 
-        // Crie um objeto de estudante com disciplinas e notas no construtor
-        Estudante estudante = new Bacharelado("Ganso", "Aprovado", "Bacharelado", Map.of("OOP", 5.5, "Design Pattern", 7.0,"IA", 8.5));
+        Estudante estudante = new Bacharelado("Jason Sobreiro", "Aprovado", "Tecnico", Map.of("OOP", "0", "Design Pattern", "0", "IA", "0"));
+        EstudanteDecorator estudanteDecorado = new BachareladoDecorator(estudante);
+        
+        JavaSQL_Handler sql_Handler = new JavaSQL_Handler();
+        sql_Handler.InsertStudent(connection, estudante);
+        sql_Handler.updateStudent(connection, 10,  estudanteDecorado.getEscolaridade());
 
-        // Use a classe JAVASQL_Handler para inserir o estudante no banco de dados MySQL
-        JavaSQL_Handler inserter = new JavaSQL_Handler();
-        inserter.InsertStudent(connection, estudante);
     }
 }

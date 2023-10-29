@@ -10,6 +10,5 @@ public  interface JAVASQL_Factory extends DB_AbstractFactory {
 	@Override
     public Connection createConnection(DB_AbstractFactory factory);
 
-    @Override
-    public void InsertStudent(Connection connectio,Estudante estudante);
+
 }
