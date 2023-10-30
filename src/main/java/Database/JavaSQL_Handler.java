@@ -8,7 +8,7 @@ import java.util.Map;
 
 import Entities.Estudante;
 
-public class JavaSQL_Handler implements JAVASQL_Factory{
+public class JavaSQL_Handler implements JavaSQL_Factory{
 	
 	 	private static final String JDBC_URL_MYSQL = "jdbc:mysql://localhost/Estudantes?useSSL=false&allowPublicKeyRetrieval=true";
 	    private static final String USER_MYSQL = "Luiz";
@@ -26,7 +26,7 @@ public class JavaSQL_Handler implements JAVASQL_Factory{
 	    }
 		
 
-		@Override
+		
 		public void InsertStudent(Connection connection, Estudante estudante) {
 		    if (connection != null) {
 		        try {
@@ -67,9 +67,8 @@ public class JavaSQL_Handler implements JAVASQL_Factory{
 		        try {
 		            String sql = "UPDATE Estudantes3 SET escolaridade = ? WHERE id = ?";
 		            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		            preparedStatement.setInt(1, estudanteId);
-		            preparedStatement.setString(2, novaString);
-		            
+		            preparedStatement.setString(1, novaString); // Alterado para setString
+		            preparedStatement.setInt(2, estudanteId);
 
 		            int rowsAffected = preparedStatement.executeUpdate();
 
@@ -83,6 +82,7 @@ public class JavaSQL_Handler implements JAVASQL_Factory{
 		        } catch (SQLException e) {
 		            e.printStackTrace();
 		        }
-   }
+		    }
 		}
+		
 }
