@@ -19,7 +19,7 @@ public class Program {
         DB_AbstractFactory mongoFactory = new MongoDB_Handler();
         DB_AbstractFactory mySQlFactory = new JavaSQL_Handler();
         
-        Connection connection = mongoFactory.createConnection(mySQlFactory);
+        Connection connection = mongoFactory.createConnection(mongoFactory);
 
         Estudante estudante = new Bacharelado("Jason Sobreiro", "Aprovado", "Técnico", Map.of("OOP", "0", "Design Pattern", "0", "IA", "0"));
         EstudanteDecorator estudanteDecorado = new BachareladoDecorator(estudante);
